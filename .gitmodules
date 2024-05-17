@@ -1,0 +1,6 @@
+[submodule "AssetsTools.NET"]
+	path = AssetsTools.NET
+	url = https://github.com/hnststdt/AssetsTools.NET.git
+[submodule "AddressablesTools"]
+	path = AddressablesTools
+	url = https://github.com/hnststdt/AddressablesTools.git
