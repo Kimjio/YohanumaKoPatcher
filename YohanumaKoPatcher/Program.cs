@@ -1,2 +1,29 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿if (args.Length != 1)
+{
+    Console.WriteLine("Usage: YohanumaKoPatcher <GAMEPATH>");
+    return;
+}
+
+var gamePath = args[0];
+if (!Directory.Exists(Path.Join(gamePath, "yohanuma_Data")))
+{
+    Console.WriteLine("Cannot find data folder");
+    return;
+}
+
+var resourcePath = Path.Join(AppContext.BaseDirectory, "ko-patch-assets");
+if (!Directory.Exists(resourcePath))
+{
+    Console.WriteLine("Cannot find patch data");
+    return;
+}
+
+var patcher = new PatchWorks(Path.Join(gamePath, "yohanuma_Data"), resourcePath);
+patcher.PatchLanguageDropdown();
+patcher.PatchFontFallback();
+patcher.UpdateUnityLocaleTable();
+patcher.UpdateMasterDataTable();
+patcher.PatchCatalog();
+patcher.PatchCatalogSettings();
+patcher.CopyBundles();
+Console.WriteLine("Done!");

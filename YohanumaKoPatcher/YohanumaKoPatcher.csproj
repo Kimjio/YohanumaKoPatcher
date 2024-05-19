@@ -14,6 +14,15 @@
     <PackageReference Include="AssetsTools.NET" Version="3.0.0-preview4">
       <ExcludeAssets>All</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="CsvHelper" Version="31.0.3" />
+    <PackageReference Include="MessagePack" Version="2.5.140" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="../KoPatchAssets\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <LinkBase>ko-patch-assets</LinkBase>
+    </Content>
   </ItemGroup>
 
 </Project>
