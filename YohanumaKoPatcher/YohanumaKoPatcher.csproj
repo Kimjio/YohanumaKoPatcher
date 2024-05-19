@@ -16,6 +16,7 @@
     </PackageReference>
     <PackageReference Include="CsvHelper" Version="31.0.3" />
     <PackageReference Include="MessagePack" Version="2.5.140" />
+    <PackageReference Include="PleOps.XdeltaSharp" Version="1.3.0" />
   </ItemGroup>
 
   <ItemGroup>

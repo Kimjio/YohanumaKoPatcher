@@ -18,7 +18,8 @@ if (!Directory.Exists(resourcePath))
     return;
 }
 
-var patcher = new PatchWorks(Path.Join(gamePath, "yohanuma_Data"), resourcePath);
+var patcher = new PatchWorks(gamePath, resourcePath);
+patcher.PatchBinary();
 patcher.PatchLanguageDropdown();
 patcher.PatchFontFallback();
 patcher.UpdateUnityLocaleTable();

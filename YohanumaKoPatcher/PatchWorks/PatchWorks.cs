@@ -1,21 +1,32 @@
+using System.Security.Cryptography;
+using System.Text.Json;
 using AssetsTools.NET;
 using AssetsTools.NET.Extra;
 
 partial class PatchWorks
 {
     const string BUNDLEKEY = "Yohane the Parhelion - NUMAZU in the MIRAGE -";
+    private string gamePath;
+    private string gameResourcePath;
     private string addressablePath;
     private string bundlePath;
     private string outputPath;
     private string patchResourcesPath;
     private string bundleKey;
     private AssetsManager manager;
-    private bool isDemo = false;
+    private bool isDemo;
+    private bool isPatched;
+    private string gameVersion;
     private Dictionary<string, AssetsFileInstance> assetsLookup;
-    public PatchWorks(string gameResourcePath, string patchResourcesPath)
+    public PatchWorks(string gamePath, string patchResourcesPath)
     {
-        bundleKey = isDemo ? BUNDLEKEY + " Demo" : BUNDLEKEY;
+        this.gamePath = gamePath;
         this.patchResourcesPath = patchResourcesPath;
+        var versionInfo = GetVersionInfo();
+        isDemo = versionInfo.Demo;
+        isPatched = versionInfo.Patched;
+        gameVersion = versionInfo.Version!;
+        gameResourcePath = Path.Join(gamePath, isDemo ? "yohanuma-demo_Data" : "yohanuma_Data");
         addressablePath = Path.Join(gameResourcePath, "StreamingAssets", "aa");
         bundlePath = Path.Combine(addressablePath, "StandaloneWindows64");
         outputPath = Path.Combine(addressablePath, "KoreanLocaleMod");
@@ -25,6 +36,8 @@ partial class PatchWorks
         }
         manager = new AssetsManager();
         assetsLookup = new();
+        Console.WriteLine($"Version {gameVersion} {(isPatched ? "" : "un")}patched{(isDemo ? " Demo" : "")}");
+        bundleKey = isDemo ? BUNDLEKEY + " Demo" : BUNDLEKEY;
     }
 
     public IEnumerable<AssetFileInfo> GetScriptInfosByClassName(AssetsFileInstance assets, string className)
@@ -73,5 +86,21 @@ partial class PatchWorks
             uncompressed.Pack(fileWriter, AssetBundleCompressionType.LZ4);
         }
         uncompressed.Close();
+    }
+
+    private GameVersionInfo GetVersionInfo()
+    {
+        Dictionary<string, GameVersionInfo> versionMap;
+        using (var f = File.OpenRead(Path.Join(patchResourcesPath, "versioninfo.json")))
+        {
+            versionMap = JsonSerializer.Deserialize<Dictionary<string, GameVersionInfo>>(f)!;
+        }
+
+        using (var f = File.OpenRead(Path.Join(gamePath, "GameAssembly.dll")))
+        using (var sha1 = SHA1.Create())
+        {
+            var hash = Convert.ToHexString(sha1.ComputeHash(f));
+            return versionMap[hash.ToLower()];
+        }
     }
 }
