@@ -3,8 +3,8 @@ name: Build artifact
 on: push
 
 jobs:
-  release:
-    name: Release
+  build:
+    name: Build
     runs-on: windows-latest
     steps:
       - name: Checkout branch
@@ -22,13 +22,14 @@ jobs:
         run: |
           hash=$(git log -n 1 --pretty=%h)
           release_name="YohanumaKoPatcher-$hash"
+          echo "release_name=$release_name" >> $GITHUB_ENV
 
           dotnet publish YohanumaKoPatcher/YohanumaKoPatcher.csproj -c Release -r win-x64 -p:PublishSingleFile=true --self-contained false -o "$release_name"
-
-          7z a -tzip "${release_name}.zip" "./${release_name}/YohanumaKoPatcher.exe" "./${release_name}/ko-patch-assets"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: YohanumaKoPatcher
-          path: YohanumaKoPatcher-*.zip
+          name: ${{ env.release_name }}
+          path: |
+            ${{ env.release_name }}/YohanumaKoPatcher.exe
+            ${{ env.release_name }}/ko-patch-assets
