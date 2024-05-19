@@ -1,6 +1,6 @@
 using CsvHelper.Configuration.Attributes;
 
-internal class TextTable
+class TextTable
 {
     [Name("location")]
     public string Location { get; set; } = "";

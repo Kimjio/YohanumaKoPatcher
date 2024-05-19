@@ -37,7 +37,8 @@ partial class PatchWorks
 
     public AssetsFileInstance LoadAssets(string bundlePath, string? cryptoKey = null)
     {
-        if (assetsLookup.ContainsKey(bundlePath)) {
+        if (assetsLookup.ContainsKey(bundlePath))
+        {
             return assetsLookup[bundlePath];
         }
         var fileStream = new FileStream(bundlePath, FileMode.Open);
