@@ -1,0 +1,34 @@
+name: Build artifact
+
+on: push
+
+jobs:
+  release:
+    name: Release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Setup Dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6
+
+      - name: Build application
+        shell: bash
+        run: |
+          hash=$(git log -n 1 --pretty=%h)
+          release_name="YohanumaKoPatcher-$hash"
+
+          dotnet publish YohanumaKoPatcher/YohanumaKoPatcher.csproj -c Release -r win-x64 -p:PublishSingleFile=true --self-contained false -o "$release_name"
+
+          7z a -tzip "${release_name}.zip" "./${release_name}/YohanumaKoPatcher.exe" "./${release_name}/ko-patch-assets"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: YohanumaKoPatcher
+          path: YohanumaKoPatcher-*.zip
