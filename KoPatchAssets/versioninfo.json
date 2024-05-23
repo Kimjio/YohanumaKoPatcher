@@ -1,4 +1,6 @@
 {
   "51a4ae53ce47488b25990570435bbdd6fa49265d": {"Patched": false, "Demo": false, "Version": "1.0.12"},
-  "f4dbfb478fda814af452f0035a53168961297a6e": {"Patched": true, "Demo": false, "Version": "1.0.12"}
+  "f4dbfb478fda814af452f0035a53168961297a6e": {"Patched": true, "Demo": false, "Version": "1.0.12"},
+  "ecd46957929b2ffc6c6f2fb4a8e9a6ec65f7eb93": {"Patched": false, "Demo": true, "Version": "1.0.0_demo"},
+  "519a6e7e52acfedc5eaabd4c18f996c4acf59fdf": {"Patched": true, "Demo": true, "Version": "1.0.0_demo"}
 }

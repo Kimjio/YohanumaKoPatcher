@@ -4,10 +4,10 @@
     return;
 }
 
-var gamePath = args[0];
-if (!Directory.Exists(Path.Join(gamePath, "yohanuma_Data")))
+var gamePath = Path.GetFullPath(args[0]);
+if (!File.Exists(Path.Join(gamePath, "GameAssembly.dll")))
 {
-    Console.WriteLine("Cannot find data folder");
+    Console.WriteLine("Cannot find game data");
     return;
 }
 
