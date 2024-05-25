@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-using System.Text.Json;
 using AssetsTools.NET;
 using AssetsTools.NET.Extra;
 
@@ -18,11 +16,10 @@ partial class PatchWorks
     private bool isPatched;
     private string gameVersion;
     private Dictionary<string, AssetsFileInstance> assetsLookup;
-    public PatchWorks(string gamePath, string patchResourcesPath)
+    public PatchWorks(string gamePath, string patchResourcesPath, GameVersionInfo versionInfo)
     {
         this.gamePath = gamePath;
         this.patchResourcesPath = patchResourcesPath;
-        var versionInfo = GetVersionInfo();
         isDemo = versionInfo.Demo;
         isPatched = versionInfo.Patched;
         gameVersion = versionInfo.Version!;
@@ -86,21 +83,5 @@ partial class PatchWorks
             uncompressed.Pack(fileWriter, AssetBundleCompressionType.LZ4);
         }
         uncompressed.Close();
-    }
-
-    private GameVersionInfo GetVersionInfo()
-    {
-        Dictionary<string, GameVersionInfo> versionMap;
-        using (var f = File.OpenRead(Path.Join(patchResourcesPath, "versioninfo.json")))
-        {
-            versionMap = JsonSerializer.Deserialize<Dictionary<string, GameVersionInfo>>(f)!;
-        }
-
-        using (var f = File.OpenRead(Path.Join(gamePath, "GameAssembly.dll")))
-        using (var sha1 = SHA1.Create())
-        {
-            var hash = Convert.ToHexString(sha1.ComputeHash(f));
-            return versionMap[hash.ToLower()];
-        }
     }
 }

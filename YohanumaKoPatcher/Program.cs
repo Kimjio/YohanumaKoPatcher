@@ -1,4 +1,7 @@
-﻿if (args.Length != 1)
+﻿using System.Security.Cryptography;
+using System.Text.Json;
+
+if (args.Length != 1)
 {
     Console.WriteLine("Usage: YohanumaKoPatcher <GAMEPATH>");
     return;
@@ -18,7 +21,26 @@ if (!Directory.Exists(resourcePath))
     return;
 }
 
-var patcher = new PatchWorks(gamePath, resourcePath);
+Dictionary<string, GameVersionInfo> versionMap;
+using (var f = File.OpenRead(Path.Join(resourcePath, "versioninfo.json")))
+{
+    versionMap = JsonSerializer.Deserialize<Dictionary<string, GameVersionInfo>>(f)!;
+}
+
+string hash;
+using (var f = File.OpenRead(Path.Join(gamePath, "GameAssembly.dll")))
+using (var sha1 = SHA1.Create())
+{
+    hash = Convert.ToHexString(sha1.ComputeHash(f)).ToLower();
+}
+
+if (!versionMap.ContainsKey(hash))
+{
+    Console.WriteLine("Unknown game version");
+    return;
+}
+
+var patcher = new PatchWorks(gamePath, resourcePath, versionMap[hash]);
 patcher.PatchBinary();
 patcher.PatchLanguageDropdown();
 patcher.PatchFontFallback();
