@@ -1,6 +1,4 @@
-using System.Globalization;
 using AssetsTools.NET.Extra;
-using CsvHelper;
 
 partial class PatchWorks
 {
@@ -37,12 +35,5 @@ partial class PatchWorks
             table.SetNewData(fields);
         }
         WriteAndCompressBundle(assets, Path.Combine(outputPath, "f38d2768ca886a5dbbe339e1d5a46132.bundle"));
-    }
-
-    static private Dictionary<string, TextTable> ReadCsvToTextTable(string path)
-    {
-        using var reader = new StreamReader(path);
-        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-        return csv.GetRecords<TextTable>().ToDictionary(e => e.Location, e => e);
     }
 }

@@ -1,5 +1,7 @@
 using AssetsTools.NET;
 using AssetsTools.NET.Extra;
+using System.Globalization;
+using CsvHelper;
 
 partial class PatchWorks
 {
@@ -83,5 +85,12 @@ partial class PatchWorks
             uncompressed.Pack(fileWriter, AssetBundleCompressionType.LZ4);
         }
         uncompressed.Close();
+    }
+
+    static private Dictionary<string, TextTable> ReadCsvToTextTable(string path)
+    {
+        using var reader = new StreamReader(path);
+        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        return csv.GetRecords<TextTable>().ToDictionary(e => e.Location, e => e);
     }
 }
