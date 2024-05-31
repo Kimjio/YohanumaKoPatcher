@@ -24,11 +24,11 @@ jobs:
           release_name="YohanumaKoPatcher-$hash"
           echo "release_name=$release_name" >> $GITHUB_ENV
 
-          wget -O KoPatchAssets/tables/glossary.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$GLOSSARY_GID"
-          wget -O KoPatchAssets/tables/glossary_demo.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$GLOSSARY_DEMO_GID"
-          wget -O KoPatchAssets/tables/tutorialpage.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$TUTORIALPAGE_GID"
-          wget -O KoPatchAssets/tables/story.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$STORY_GID"
-          wget -O KoPatchAssets/tables/ui.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$UI_GID"
+          curl -L "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$GLOSSARY_GID" > KoPatchAssets/tables/glossary.csv
+          curl -L "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$GLOSSARY_DEMO_GID" > KoPatchAssets/tables/glossary_demo.csv
+          curl -L "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$TUTORIALPAGE_GID" > KoPatchAssets/tables/tutorialpage.csv
+          curl -L "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$STORY_GID" > KoPatchAssets/tables/story.csv
+          curl -L "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$UI_GID" > KoPatchAssets/tables/ui.csv 
 
           dotnet publish YohanumaKoPatcher/YohanumaKoPatcher.csproj -c Release -r win-x64 -p:PublishSingleFile=true --self-contained false -o "$release_name"
         env:
