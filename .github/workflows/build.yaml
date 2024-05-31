@@ -24,8 +24,21 @@ jobs:
           release_name="YohanumaKoPatcher-$hash"
           echo "release_name=$release_name" >> $GITHUB_ENV
 
-          dotnet publish YohanumaKoPatcher/YohanumaKoPatcher.csproj -c Release -r win-x64 -p:PublishSingleFile=true --self-contained false -o "$release_name"
+          wget -O KoPatchAssets/tables/glossary.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$GLOSSARY_GID"
+          wget -O KoPatchAssets/tables/glossary_demo.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$GLOSSARY_DEMO_GID"
+          wget -O KoPatchAssets/tables/tutorialpage.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$TUTORIALPAGE_GID"
+          wget -O KoPatchAssets/tables/story.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$STORY_GID"
+          wget -O KoPatchAssets/tables/ui.csv "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$UI_GID"
 
+          dotnet publish YohanumaKoPatcher/YohanumaKoPatcher.csproj -c Release -r win-x64 -p:PublishSingleFile=true --self-contained false -o "$release_name"
+        env:
+          SHEETS_KEY: ${{ vars.SHEETS_KEY }}
+          GLOSSARY_GID: ${{ vars.GLOSSARY_GID }}
+          GLOSSARY_DEMO_GID: ${{ vars.GLOSSARY_DEMO_GID }}
+          TUTORIALPAGE_GID: ${{ vars.TUTORIALPAGE_GID }}
+          STORY_GID: ${{ vars.STORY_GID }}
+          UI_GID: ${{ vars.UI_GID }}
+          
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
