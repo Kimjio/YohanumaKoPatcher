@@ -21,7 +21,8 @@ jobs:
         shell: bash
         run: |
           hash=$(git log -n 1 --pretty=%h)
-          release_name="YohanumaKoPatcher-$hash"
+          builddate=$(date +%Y%m%d)
+          release_name="YohanumaKoPatcher-$hash-$builddate"
           echo "release_name=$release_name" >> $GITHUB_ENV
 
           curl -L "https://docs.google.com/feeds/download/spreadsheets/Export?key=$SHEETS_KEY&exportFormat=csv&gid=$GLOSSARY_GID" > KoPatchAssets/tables/glossary.csv
