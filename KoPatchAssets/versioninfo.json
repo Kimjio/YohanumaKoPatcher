@@ -4,5 +4,7 @@
   "51a4ae53ce47488b25990570435bbdd6fa49265d": {"Patched": false, "Demo": false, "Version": "1.0.12"},
   "f4dbfb478fda814af452f0035a53168961297a6e": {"Patched": true, "Demo": false, "Version": "1.0.12"},
   "bfbd2f012caab5a1884f14459164b16d8cb33087": {"Patched": false, "Demo": false, "Version": "1.0.13"},
-  "7a0bbda150697e1d5431f39be931db03fffe2a8f": {"Patched": true, "Demo": false, "Version": "1.0.13"}
+  "7a0bbda150697e1d5431f39be931db03fffe2a8f": {"Patched": true, "Demo": false, "Version": "1.0.13"},
+  "d0093c4daccfc8b8f4becfedf569beee6bf67eff": {"Patched": false, "Demo": false, "Version": "1.0.14"},
+  "90920346e9a1fd4a27db4330f190ccc15ad793d0": {"Patched": true, "Demo": false, "Version": "1.0.14"}
 }
