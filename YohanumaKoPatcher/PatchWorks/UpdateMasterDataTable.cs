@@ -5,17 +5,17 @@ partial class PatchWorks
     public void UpdateMasterDataTable()
     {
         Console.WriteLine("Updating Master DB");
-        var mdb = new MasterDBPatcher(Path.Combine(bundlePath, "0bd374d9376bad42e740a3c9fe1b6ea6.bundle"), bundleKey);
+        
+        string fileName = isNX ? "master_assets_all.bundle" : "0bd374d9376bad42e740a3c9fe1b6ea6.bundle";
+
+        var mdb = new MasterDBPatcher(Path.Combine(bundlePath, fileName), bundleKey, isNX);
 
         var glossary = JsonSerializer.Deserialize<List<GlossaryEntry>>(mdb.JsonStrings["Glossary"])!;
         var glossarySource = glossary.Where(entry => entry.Language! == "ja")
             .ToDictionary(e => e.MasterID!, e => e);
         var glossaryLocalized = ReadCsvToTextTable(Path.Combine(patchResourcesPath, "tables", "glossary.csv"));
-        if (isDemo)
-        {
-            var demo = ReadCsvToTextTable(Path.Combine(patchResourcesPath, "tables", "glossary_demo.csv"));
-            foreach (var (k, v) in demo) glossaryLocalized[k] = v;
-        }
+
+        glossary.RemoveAll(entry => entry.Language! == "zh_TW");
 
         foreach (var (k, v) in glossarySource)
         {
@@ -23,9 +23,9 @@ partial class PatchWorks
             var textKey = $"{v.MasterID}.Text";
             glossary.Add(new GlossaryEntry
             {
-                ID = $"{v.MasterID}_ko",
+                ID = $"{v.MasterID}_zh_TW",
                 MasterID = v.MasterID,
-                Language = "ko",
+                Language = "zh_TW",
                 Name = glossaryLocalized.ContainsKey(nameKey)
                     && glossaryLocalized[nameKey].Localized != ""
                     ? glossaryLocalized[nameKey].Localized
@@ -45,12 +45,15 @@ partial class PatchWorks
         var tutorialSource = tutorial.Where(entry => entry.Language == "ja")
             .ToDictionary(e => $"{e.TutorialID}/{e.Page}", e => e);
         var tutorialLocalized = ReadCsvToTextTable(Path.Combine(patchResourcesPath, "tables", "tutorialpage.csv"));
+
+        tutorial.RemoveAll(entry => entry.Language == "zh_TW");
+
         foreach (var (k, v) in tutorialSource)
         {
             tutorial.Add(new TutorialPageEntry
             {
                 TutorialID = v.TutorialID,
-                Language = "ko",
+                Language = "zh_TW",
                 Page = v.Page,
                 Text = tutorialLocalized.ContainsKey(k)
                     && tutorialLocalized[k].Localized != ""
@@ -61,6 +64,6 @@ partial class PatchWorks
         }
         mdb.JsonStrings["TutorialPage"] = JsonSerializer.Serialize(tutorial);
 
-        mdb.WriteBundle(Path.Combine(outputPath, "0bd374d9376bad42e740a3c9fe1b6ea6.bundle"));
+        mdb.WriteBundle(Path.Combine(outputPath, fileName), bundleKey);
     }
 }

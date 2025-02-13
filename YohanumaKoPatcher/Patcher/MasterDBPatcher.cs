@@ -11,13 +11,24 @@ class MasterDBPatcher
     private MessagePackSerializerOptions lz4Options = MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.Lz4Block);
     public Dictionary<string, string> JsonStrings { get; set; } = new();
 
-    public MasterDBPatcher(string mdbPath, string bundleKey)
+    public MasterDBPatcher(string mdbPath, string? bundleKey, bool isNX)
     {
         var fileStream = new FileStream(mdbPath, FileMode.Open);
         manager = new AssetsManager();
-        var cryptoStream = new BundleDecryptStream(
-            fileStream, bundleKey, Path.GetFileNameWithoutExtension(mdbPath));
-        var bundle = manager.LoadBundleFile(cryptoStream, fileStream.Name);
+        
+        BundleFileInstance bundle;
+        
+        if (!isNX && bundleKey != null)
+        {
+            var cryptoStream = new BundleStream(
+                fileStream, bundleKey, Path.GetFileNameWithoutExtension(mdbPath));
+            bundle = manager.LoadBundleFile(cryptoStream, fileStream.Name);
+        }
+        else
+        {
+            bundle = manager.LoadBundleFile(fileStream, fileStream.Name);
+        }
+        
         assets = manager.LoadAssetsFileFromBundle(bundle, 0);
 
         dbInfo = assets.file.GetAssetsOfType(AssetClassID.TextAsset).First();
@@ -36,7 +47,7 @@ class MasterDBPatcher
         }
     }
 
-    public void WriteBundle(string path)
+    public void WriteBundle(string path, string? cryptoKey = null)
     {
         var packs = new MemoryStream();
         var header = new Dictionary<string, (int, int)>();
@@ -55,6 +66,6 @@ class MasterDBPatcher
 
         dbBase["m_Script"].AsByteArray = masterDB.ToArray();
         dbInfo.SetNewData(dbBase);
-        PatchWorks.WriteAndCompressBundle(assets, path);
+        PatchWorks.WriteAndCompressBundle(assets, path, cryptoKey);
     }
 }
