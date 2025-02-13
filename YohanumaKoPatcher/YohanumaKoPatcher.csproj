@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AddressablesTools\AddressablesTools\AddressablesTools.csproj" />
     <ProjectReference Include="..\AssetsTools.NET\AssetTools.NET\AssetsTools.NET.csproj" />
     <!-- HACK: ignore NuGet dependency -->
     <PackageReference Include="AssetsTools.NET" Version="3.0.0">

@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddressablesTools", "AddressablesTools", "{94A4E8FB-C88E-413B-AD76-C24CAB57EE98}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressablesTools", "AddressablesTools\AddressablesTools\AddressablesTools.csproj", "{A1C5BE10-EFF5-4642-8500-D383F9A3B40C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AssetsTools.NET", "AssetsTools.NET", "{C0087CD2-CF9B-4EBF-B339-C5F0DBE3BAF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetsTools.NET", "AssetsTools.NET\AssetTools.NET\AssetsTools.NET.csproj", "{B4A10665-F63B-4CDA-8D56-6D44F700DBAE}"
@@ -18,14 +14,7 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A1C5BE10-EFF5-4642-8500-D383F9A3B40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1C5BE10-EFF5-4642-8500-D383F9A3B40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1C5BE10-EFF5-4642-8500-D383F9A3B40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1C5BE10-EFF5-4642-8500-D383F9A3B40C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4A10665-F63B-4CDA-8D56-6D44F700DBAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4A10665-F63B-4CDA-8D56-6D44F700DBAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4A10665-F63B-4CDA-8D56-6D44F700DBAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,8 +24,10 @@ Global
 		{46266E24-8A4C-44C9-A13A-A465DF4F2A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46266E24-8A4C-44C9-A13A-A465DF4F2A06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A1C5BE10-EFF5-4642-8500-D383F9A3B40C} = {94A4E8FB-C88E-413B-AD76-C24CAB57EE98}
 		{B4A10665-F63B-4CDA-8D56-6D44F700DBAE} = {C0087CD2-CF9B-4EBF-B339-C5F0DBE3BAF6}
 	EndGlobalSection
 EndGlobal
